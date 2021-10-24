@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import api from '../../api';
+import AdDefine from '../AdDefine';
 
 function UploadPodcast() {
     const [selectedFile, setSelectedFile] = useState();
@@ -25,7 +26,7 @@ function UploadPodcast() {
                 <button type="submit">Submit</button>
             </form>
             <div>
-                
+                <AdDefine />
             </div>
         </div>
     )
