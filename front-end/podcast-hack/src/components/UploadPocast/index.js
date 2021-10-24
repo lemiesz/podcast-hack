@@ -3,7 +3,8 @@ import React from 'react';
 function UploadPodcast() {
     return (
         <div>
-            THIS IS THE UPLOAD PHOTO COMPONENT HEHE
+            <input type="file" name="file"></input>
+            <button type="submit">Submit</button>
         </div>
     )
 }
