@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
 
 function AdDefine() {
+    const [name, setName] = useState('')
+    const [adFile, setAdFile] = useState();
+    const [adFileSelected, setAdFileSelected] = useState(false);
+    const [firstTimeStamp, setFirstTimeStamp] = useState('');
+    const [midTimeStamp, setMidTimeStamp] = useState('');
+    const [FinalTimeStamp, setFinalTimeStamp] = useState('');
+
+    const addAd = async (e) => {
+
+    }
 
     return (
         <div>
@@ -15,6 +25,7 @@ function AdDefine() {
                 <input type="time" name="timestamp" step="2"></input>
                 <label>Final Ad TimeStamp</label>
                 <input type="time" name="timestamp" step="3"></input>
+                <button type="submit">Submit</button>
             </form>
         </div>
     )
