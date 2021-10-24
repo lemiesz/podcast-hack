@@ -4,7 +4,6 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import UploadPodcast from './components/UploadPocast';
 
-
 function App() {
   return (
     <div className="App">
