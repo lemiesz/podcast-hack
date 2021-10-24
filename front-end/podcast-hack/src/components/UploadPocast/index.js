@@ -1,6 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 function UploadPodcast() {
+    const [selectedFile, setSelectedFile] = useState();
+    const [isFileLoaded, setFileLoaded] = useState(false);
+
     return (
         <div>
             <input type="file" name="file"></input>
