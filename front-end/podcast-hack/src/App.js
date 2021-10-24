@@ -2,12 +2,17 @@ import logo from './logo.svg';
 import './App.css';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import UploadPodcast from './components/UploadPocast';
 
 
 function App() {
   return (
     <div className="App">
-      RENDER THIS LOL
+      <Switch>
+        <Route>
+          <UploadPodcast />
+        </Route>
+      </Switch>
     </div>
   );
 }
