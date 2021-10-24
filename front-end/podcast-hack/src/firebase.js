@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import { getAnalytics } from "firebase/analytics";
 
 
@@ -27,5 +27,8 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
+if(process.env.NODE_ENV === 'development') {
+    connectFirestoreEmulator(db, 'localhost', 8080);
+} 
 
 export const analytics = getAnalytics(app);
