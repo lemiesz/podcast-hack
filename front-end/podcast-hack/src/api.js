@@ -1,5 +1,3 @@
-import {app} from "./firebasefirebase";
-
 class User {
   constructor({ name, email, uid, podcasts }) {
     // name string
