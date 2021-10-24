@@ -9,18 +9,19 @@ function AdDefine() {
     const [adFile, setAdFile] = useState();
     const [adFileSelected, setAdFileSelected] = useState(false);
     const [firstTimeStamp, setFirstTimeStamp] = useState('');
-    const [FinalTimeStamp, setFinalTimeStamp] = useState('');
+    const [finalTimeStamp, setFinalTimeStamp] = useState('');
 
     const addAd = async (e) => {
         e.preventDefault();
         setAdFileSelected(true);
 
-        await api.defineAdOnPodcast({id, name, firstTimeStamp, FinalTimeStamp})
-        console.log(await api.defineAdOnPodcast({ id, name, firstTimeStamp, FinalTimeStamp }))
+        await api.defineAdOnPodcast({id, name, firstTimeStamp, finalTimeStamp})
+        console.log(await api.defineAdOnPodcast({ id, name, firstTimeStamp, finalTimeStamp }))
     }
 
     return (
         <div>
+            <h1>Ad Upload Component</h1>
             <form onSubmit={addAd}>
                 <label>Ad Name:</label>
                 <input type="text" onChange={(e) => setName( e.target.value)}></input>
