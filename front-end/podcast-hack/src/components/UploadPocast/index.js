@@ -9,6 +9,7 @@ function UploadPodcast() {
     const [podDesc, setPodDesc] = useState('');
 
     const fileUpload = async (e) => {
+        e.preventDault();
         setSelectedFile(e.target.value);
         setIsFileLoaded(true);
 
