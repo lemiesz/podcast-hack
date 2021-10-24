@@ -11,9 +11,6 @@ function UploadPodcast() {
         setSelectedFile(e.target.value);
         setIsFileLoaded(true);
 
-        const podcaat = {
-
-        }
        await api.uploadPodcast({ selectedFile, podCastName, podDesc });
     }
 
@@ -27,6 +24,9 @@ function UploadPodcast() {
                 <input type="textarea" onChange={setPodDesc}></input>
                 <button type="submit">Submit</button>
             </form>
+            <div>
+                
+            </div>
         </div>
     )
 }
