@@ -26,3 +26,11 @@ const remove = (podcast) => ({
     podcast
 })
 
+const initialState = {};
+
+const podCast = (state = initialState, action) => {
+    switch (action.type) {
+        default:
+            return initialState;
+    }
+}
