@@ -5,11 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import configureStore from './store';
+import store from './store';
 import "./firebase";
-
-const store = configureStore();
-
 
 ReactDOM.render(
   <React.StrictMode>

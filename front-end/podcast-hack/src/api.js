@@ -1,3 +1,5 @@
+import { signInWithGoogle } from "./firebase";
+
 class User {
   constructor({ name, email, uid, podcasts }) {
     // name string
@@ -33,14 +35,12 @@ function wrapInPromise(obj) {
 }
 
 class Api {
-  login() {
-    return wrapInPromise(
-      User({
-        name: "Noah",
-        email: "noah@noah.com",
-        id: "1",
-      })
-    );
+  async login({ provider }) {
+    switch (provider) {
+      case "google":
+      default:
+        return await signInWithGoogle();
+    }
   }
 
   logout() {
@@ -86,24 +86,18 @@ class Api {
   /**
    * Define on advertisment associated with podcast
    */
-  defineAdOnPodcast({
-      podcastId,
-      name,
-      timeStartMs,
-      timeEndMs,
-      adFileRef
-  }) {
-      return wrapInPromise(true)
+  defineAdOnPodcast({ podcastId, name, timeStartMs, timeEndMs, adFileRef }) {
+    return wrapInPromise(true);
   }
 
   /**
-   * Creates a new spliced together sound file containing 
-   * the new ads that we wanted to splice in. 
-   * 
+   * Creates a new spliced together sound file containing
+   * the new ads that we wanted to splice in.
+   *
    * Returns a url refrence of that sound file.
    */
-  publishPodcast({id}) {
-      return wrapInPromise("https://sound.com");
+  publishPodcast({ id }) {
+    return wrapInPromise("https://sound.com");
   }
 }
 
