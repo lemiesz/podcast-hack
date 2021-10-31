@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import api from '../../api';
 import AdDefine from '../AdDefine';
+import podcastUpload from '../../store/podcast'
 
 function UploadPodcast() {
     const [selectedFile, setSelectedFile] = useState();
@@ -10,7 +10,7 @@ function UploadPodcast() {
     const [firstTimeStamp, setFirstTimeStamp] = useState('');
     const [finalTimeStamp, setFinalTimeStamp] = useState('');
 
-    
+
 
     return (
         <div>
