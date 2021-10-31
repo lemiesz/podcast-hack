@@ -4,8 +4,8 @@ import api from "../api";
 export const loginUserWithGoogle = createAsyncThunk(
   "user/loginUserWithGoogle",
   async (userId, thunkAPI) => {
-      const result = await api.login({provider: "google"});
-      return result;
+    const result = await api.login({ provider: "google" });
+    return result;
   }
 );
 
@@ -19,15 +19,17 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action) {
-      state.user = action.payload;
+      state = { ...action.payload };
+      return state;
     },
   },
-  extraReducers: (builders) => {
-    builders.addCase(loginUserWithGoogle.fulfilled, (state, action) => {
-        state.userName = action.payload.name;
-        state.email = action.payload.email;
-    });
-  },
+  // extraReducers: (builders) => {
+  //   builders.addCase(loginUserWithGoogle.fulfilled, (state, action) => {
+  //     state.userName = action.payload.name;
+  //     state.email = action.payload.email;
+  //     state.id = action.payload.uid;
+  //   });
+  // },
 });
 
 export const { setUser } = userSlice.actions;

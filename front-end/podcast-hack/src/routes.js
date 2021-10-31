@@ -1,5 +1,5 @@
 import Login from "./components/login/component";
-import UploadPodcast from "./components/uploadpodcast/index.js";
+import UploadPodcast from "./components/upload-podcast/index.js";
 import { auth } from "./firebase";
 
 export const Routes = [

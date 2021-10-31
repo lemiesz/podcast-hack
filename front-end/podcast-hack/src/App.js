@@ -1,16 +1,15 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Redirect, Route, Switch, useHistory } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
 import Login from "./components/login/component";
 
-import { auth } from "./firebase";
 import { Routes } from "./routes";
 
 function App() {
   const user = useSelector((state) => state.user);
   const history = useHistory();
 
-  if (!auth.currentUser) {
+  if (user.id === "") {
     // console.log("Redirect");
     return <Login />;
   }
