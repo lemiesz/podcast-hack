@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AdDefine from '../AdDefine';
+import AdDefine from '../addefine';
 import { useDispatch } from 'react-redux';
 import { podcastUpload } from '../../store/podcast';
 

@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import Login from "./components/login/component";
+
 import { auth } from "./firebase";
 import { Routes } from "./routes";
 
