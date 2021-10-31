@@ -1,3 +1,5 @@
+import api from "../api";
+
 //TYPE CONSTANTS
 const LOAD = "podcast/load";
 const ADD = "podcast/add";
@@ -26,11 +28,26 @@ const remove = (podcast) => ({
     podcast
 })
 
+//Thunks
+
+const podcastUpload = (podcastInfo) => async (dispatch) => {
+
+    const { selectedFile, podCastName, podDesc  } = podcastInfo
+
+    const data = await api.uploadPodcast({ selectedFile, podCastName, podDesc });
+
+    if (data.ok) {
+       return dispatch(add(data))
+    }
+}
+
 const initialState = {};
 
-const podCast = (state = initialState, action) => {
+const podcastReducer = (state = initialState, action) => {
     switch (action.type) {
         default:
             return initialState;
     }
 }
+
+export default podcastReducer;

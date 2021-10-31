@@ -1,8 +1,9 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import podcastReducer from './podcast';
 
 const rootReducer = combineReducers({
-
+    podcastReducer
 })
 
 let enhancer;

@@ -10,18 +10,12 @@ function UploadPodcast() {
     const [firstTimeStamp, setFirstTimeStamp] = useState('');
     const [finalTimeStamp, setFinalTimeStamp] = useState('');
 
-    const fileUpload = async (e) => {
-        e.preventDault();
-        setSelectedFile(e.target.value);
-        setIsFileLoaded(true);
-
-       await api.uploadPodcast({ selectedFile, podCastName, podDesc });
-    }
+    
 
     return (
         <div>
             <h1>Podcast Upload Component</h1>
-            <form onSubmit={fileUpload}>
+            <form /* onSubmit={fileUpload} */>
                 <label>Name:</label>
                 <input type="text" onChange={setPodcastName}></input>
                 <input type="file" name="file"></input>
