@@ -28,21 +28,23 @@ function UploadPodcast() {
     return (
         <div>
             <h1>Podcast Upload Component</h1>
-            <form onSubmit={handleSubmit}>
-                <label>Name:</label>
-                <input type="text" onChange={setPodcastName}></input>
-                <input type="file" name="file"></input>
-                <label>RSS Feed</label>
-                <input type="text"></input>
-                <label>Description:</label>
-                <input type="textarea" onChange={setPodDesc}></input>
-                <label>First Ad Break MetaData TimeStamp</label>
-                <input type="time" name="timestamp" step="1" onChange={(e) => setFirstTimeStamp(e.target.value)}></input>
-                <label>Final Ad TimeStamp</label>
-                <input type="time" name="timestamp" step="3" onChange={(e) => setFinalTimeStamp(e.target.value)}></input>
-                
-                <button type="submit">Submit</button>
-            </form>
+            <main className="container mx-auto max-w-screen-lg h-full">
+                <form onSubmit={handleSubmit}>
+                    <label>Name:</label>
+                    <input type="text" onChange={setPodcastName}></input>
+                    <input type="file" name="file"></input>
+                    <label>RSS Feed</label>
+                    <input type="text"></input>
+                    <label>Description:</label>
+                    <input type="textarea" onChange={setPodDesc}></input>
+                    <label>First Ad Break MetaData TimeStamp</label>
+                    <input type="time" name="timestamp" step="1" onChange={(e) => setFirstTimeStamp(e.target.value)}></input>
+                    <label>Final Ad TimeStamp</label>
+                    <input type="time" name="timestamp" step="3" onChange={(e) => setFinalTimeStamp(e.target.value)}></input>
+
+                    <button type="submit">Submit</button>
+                </form>
+            </main>
             <div>
                 <AdDefine />
             </div>
