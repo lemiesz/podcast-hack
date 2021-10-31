@@ -30,7 +30,7 @@ const remove = (podcast) => ({
 
 //Thunks
 
-const podcastUpload = (podcastInfo) => async (dispatch) => {
+export const podcastUpload = (podcastInfo) => async (dispatch) => {
 
     const { selectedFile, podCastName, podDesc  } = podcastInfo
 
@@ -45,6 +45,12 @@ const initialState = {};
 
 const podcastReducer = (state = initialState, action) => {
     switch (action.type) {
+        case ADD:
+            const newState = {
+                ...state,
+                [action.podcast.id]: action.podcast
+            }
+            return newState
         default:
             return initialState;
     }

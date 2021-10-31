@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AdDefine from '../AdDefine';
 import { useDispatch } from 'react-redux';
-import podcastUpload from '../../store/podcast'
+import { podcastUpload } from '../../store/podcast';
 
 function UploadPodcast() {
     const [selectedFile, setSelectedFile] = useState();
