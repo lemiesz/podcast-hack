@@ -29,10 +29,14 @@ function UploadPodcast() {
         <div>
             <h1>Podcast Upload Component</h1>
             <main className="container mx-auto max-w-screen-lg h-full">
+                
                 <form onSubmit={handleSubmit}>
                     <label>Name:</label>
                     <input type="text" onChange={setPodcastName}></input>
-                    <input type="file" name="file"></input>
+                    <label className="w-64 flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide uppercase border border-blue cursor-pointer hover:bg-purple-600 hover:text-white text-purple-600 ease-linear transition-all duration-150">
+                        <span class="mt-2 text-base leading-normal">Select a file</span>
+                        <input type="file" name="file"></input>
+                    </label>
                     <label>RSS Feed</label>
                     <input type="text"></input>
                     <label>Description:</label>
