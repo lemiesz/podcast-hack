@@ -30,17 +30,7 @@ function UploadPodcast() {
       <form onSubmit={handleSubmit} className="max-w-2xl rounded-lg shadow-xl bg-gray-50">
         <h1>Podcast Upload Component</h1>
         <label>Name:</label>
-        {/* <input type="file" name="file"></input> */}
-        {/* <div className="flex w-full h-screen items-center justify-center bg-grey-lighter">
-          <input type="text" onChange={setPodcastName}></input>
-          <label className="w-64 flex flex-col items-center px-4 py-6 bg-white text-blue rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue hover:text-white">
-            <svg className="w-8 h-8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-              <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-            </svg>
-            <span className="mt-2 text-base leading-normal">Select a file</span>
-            <input type='file' class="hidden" onChange={setSelectedFile} />
-          </label>
-        </div> */}
+        <input type="text" onChange={e => setPodcastName(e.target.value)}></input>
         {/* <label>RSS Feed</label>
         <input type="text"></input> */}
         <div className="m-4">
@@ -57,12 +47,12 @@ function UploadPodcast() {
                 <p className="pt-1 text-sm tracking-wider text-gray-400 group-hover:text-gray-600">
                   Attach a file</p>
               </div>
-              <input type="file" className="opacity-0" />
+              <input type="file" className="opacity-0" omChange={e => setSelectedFile(e.target.value)} />
             </label>
           </div>
         </div>
         <label>Description:</label>
-        <input type="textarea" onChange={setPodDesc}></input>
+        <input type="textarea" onChange={e => setPodDesc(e.target.value)}></input>
         <div className="flex justify-center p-2">
           <button type="submit" className="w-full px-4 py-2 text-white bg-blue-500 rounded shadow-xl">Create</button>
         </div>
