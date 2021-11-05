@@ -38,28 +38,13 @@ function UploadPodcast() {
               <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
             </svg>
             <span className="mt-2 text-base leading-normal">Select a file</span>
-            <input type='file' class="hidden" />
+            <input type='file' class="hidden" onChange={setSelectedFile} />
           </label>
         </div>
         <label>RSS Feed</label>
         <input type="text"></input>
         <label>Description:</label>
         <input type="textarea" onChange={setPodDesc}></input>
-        <label>First Ad Break MetaData TimeStamp</label>
-        <input
-          type="time"
-          name="timestamp"
-          step="1"
-          onChange={(e) => setFirstTimeStamp(e.target.value)}
-        ></input>
-        <label>Final Ad TimeStamp</label>
-        <input
-          type="time"
-          name="timestamp"
-          step="3"
-          onChange={(e) => setFinalTimeStamp(e.target.value)}
-        ></input>
-
         <button type="submit">Submit</button>
       </form>
       <div>
