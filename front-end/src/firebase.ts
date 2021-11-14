@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+import { FirebaseError, initializeApp } from "firebase/app";
 import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import { getAnalytics } from "firebase/analytics";
 import {
@@ -7,6 +7,7 @@ import {
   GoogleAuthProvider,
   setPersistence,
   signInWithPopup,
+  AuthError,
 } from "firebase/auth";
 
 // Your web app's Firebase configuration
@@ -52,13 +53,11 @@ export async function signInWithGoogle() {
       email: user.email,
     };
   } catch (error) {
-    // Handle Errors here.
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // The email of the user's account used.
-    const email = error.email;
-    // The AuthCredential type that was used.
-    const credential = GoogleAuthProvider.credentialFromError(error);
-    return credential;
+    if (error instanceof FirebaseError) {
+      const authError = error as AuthError;
+      // The AuthCredential type that was used.
+      const credential = GoogleAuthProvider.credentialFromError(authError);
+      return credential;
+    }
   }
 }

@@ -1,41 +1,15 @@
-import { signInWithGoogle } from "./firebase";
+import { DefinedAuthProviders } from ".";
+import { signInWithGoogle } from "../firebase";
+import { Podcast } from "./types";
 
-class User {
-  constructor({ name, email, uid, podcasts }) {
-    // name string
-    this.name = name;
-    // string
-    this.email = email;
-    // unique string
-    this.id = uid;
-    // array of refrences to podcasts
-    this.podcasts = podcasts || [];
-  }
-}
-
-class Podcast {
-  constructor({ name, descrtion, fileLocation, id, relatedAds }) {
-    // string
-    this.name = name;
-    // string
-    this.descrtion = descrtion;
-    // unique storage url for this podcast
-    this.fileLocation = fileLocation;
-    // unique id of podcast
-    this.id = id;
-    // a list of related ads with timestamps
-    this.relatedAds = relatedAds;
-  }
-}
-
-function wrapInPromise(obj) {
+function wrapInPromise(obj: any) {
   return new Promise((resolve) => {
     return resolve(obj);
   });
 }
 
 class Api {
-  async login({ provider }) {
+  async login({ provider }: { provider: DefinedAuthProviders }) {
     switch (provider) {
       case "google":
       default:
@@ -52,33 +26,32 @@ class Api {
    */
   uploadPodcast({
     // Buffer of sound file of type File
-    fileRef,
+    fileLocation,
     // string
     name,
     // string
     description,
-  }) {
+  }: Omit<Podcast, "id">) {
     alert("This has not be implemented yet");
     return wrapInPromise(
       new Podcast({
         name: "fake",
-        descrtion: "this is the description of the podcast",
+        description: "this is the description of the podcast",
         fileLocation: "file.com",
         id: "123",
+        relatedAds: [],
       })
     );
   }
 
-  getPodcast({
-    // uniqe id that refresnces this podcast
-    id,
-  }) {
+  getPodcast({ id = "" }) {
     return wrapInPromise(
       new Podcast({
         name: "fake",
-        descrtion: "this is the description of the podcast",
+        description: "this is the description of the podcast",
         fileLocation: "file.com",
         id: "123",
+        relatedAds: [],
       })
     );
   }
@@ -86,7 +59,13 @@ class Api {
   /**
    * Define on advertisment associated with podcast
    */
-  defineAdOnPodcast({ podcastId, name, timeStartMs, timeEndMs, adFileRef }) {
+  defineAdOnPodcast({
+    podcastId,
+    name,
+    timeStartMs,
+    timeEndMs,
+    adFileRef,
+  }: any) {
     return wrapInPromise(true);
   }
 
@@ -96,7 +75,7 @@ class Api {
    *
    * Returns a url refrence of that sound file.
    */
-  publishPodcast({ id }) {
+  publishPodcast({ id = "" }) {
     return wrapInPromise("https://sound.com");
   }
 }

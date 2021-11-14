@@ -1,13 +1,11 @@
-import React from "react";
 import { useSelector } from "react-redux";
-import { Route, Switch, useHistory } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import Login from "./components/login/component";
-
 import { Routes } from "./routes";
+import { userSelector } from "./store/user";
 
 function App() {
-  const user = useSelector((state) => state.user);
-  const history = useHistory();
+  const user = useSelector(userSelector);
 
   if (user.id === "") {
     // console.log("Redirect");
