@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux'
-import { loginUserWithGoogle } from '../../store/user'
+import { loginUserWithFacebook, loginUserWithGoogle } from '../../store/user'
 import logo from './logo.png'
 
 export default function Login() {
@@ -51,6 +51,17 @@ export default function Login() {
                                 type="button"
                             >
                                 Login with Google
+                            </button>
+                        </div>
+                        <div className="w-full  mt-4">
+                            <button
+                                onClick={() =>
+                                    dispatch(loginUserWithFacebook())
+                                }
+                                className="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline"
+                                type="button"
+                            >
+                                Login with Facebook
                             </button>
                         </div>
                     </div>

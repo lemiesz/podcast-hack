@@ -35,4 +35,4 @@ export class Podcast {
     }
 }
 
-export type DefinedAuthProviders = 'google'
+export type DefinedAuthProviders = 'google' | 'facebook'

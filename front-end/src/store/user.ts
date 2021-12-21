@@ -9,6 +9,13 @@ export const loginUserWithGoogle = createAsyncThunk(
         return result
     }
 )
+export const loginUserWithFacebook = createAsyncThunk(
+    'user/loginUserWithFacebook',
+    async (userId, thunkAPI) => {
+        const result = await api.login({ provider: 'facebook' })
+        return result
+    }
+)
 
 const initialState: User = {
     id: '',

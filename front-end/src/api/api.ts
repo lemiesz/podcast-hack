@@ -1,5 +1,4 @@
-import { DefinedAuthProviders } from '.'
-import { signInWithGoogle } from './firebase'
+import { DefinedAuthProviders, signInWithProviderPopup } from '.'
 import { Podcast } from './types'
 
 function wrapInPromise(obj: any) {
@@ -12,8 +11,10 @@ class Api {
     async login({ provider }: { provider: DefinedAuthProviders }) {
         switch (provider) {
             case 'google':
+            case 'facebook':
+                return await signInWithProviderPopup(provider)
             default:
-                return await signInWithGoogle()
+                throw new Error(`Provider ${provider} is not supported`)
         }
     }
 

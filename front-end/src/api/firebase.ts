@@ -8,7 +8,9 @@ import {
     setPersistence,
     signInWithPopup,
     AuthError,
+    FacebookAuthProvider,
 } from 'firebase/auth'
+import { DefinedAuthProviders } from '.'
 
 // Your web app's Firebase configuration
 
@@ -44,10 +46,14 @@ if (process.env.NODE_ENV === 'development') {
 export const analytics = getAnalytics(app)
 
 export const googleAuthProvider = new GoogleAuthProvider()
-export async function signInWithGoogle() {
+export const facebookAuthProvider = new FacebookAuthProvider()
+const providerMap = {
+    google: googleAuthProvider,
+    facebook: facebookAuthProvider,
+}
+export async function signInWithProviderPopup(provider: DefinedAuthProviders) {
     try {
-        const { user } = await signInWithPopup(auth, googleAuthProvider)
-        // const credential = GoogleAuthProvider.credentialFromResult(result)
+        const { user } = await signInWithPopup(auth, providerMap[provider])
         return {
             name: user.displayName,
             email: user.email,
