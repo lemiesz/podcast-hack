@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { loginUserWithFacebook, loginUserWithGoogle } from '../../store/user'
-import logo from './logo.png'
+import logo from '../../assets/logo.png'
 
 export default function Login() {
     const dispatch = useDispatch()

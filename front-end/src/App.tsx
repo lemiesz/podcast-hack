@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 import Login from './components/login/component'
+import NavBar from './components/navbar/component'
 import { Routes } from './routes'
 import { userSelector } from './store/user'
 
@@ -13,6 +14,7 @@ function App() {
     }
     return (
         <div className="App">
+            <NavBar />
             <Switch>
                 {Routes.map((item) => (
                     <Route
