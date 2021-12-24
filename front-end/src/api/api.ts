@@ -1,5 +1,10 @@
-import { collection, doc, getDoc } from 'firebase/firestore'
-import { db, DefinedAuthProviders, signInWithProviderPopup } from '.'
+import { doc, getDoc } from 'firebase/firestore'
+import {
+    db,
+    DefinedAuthProviders,
+    signInWithProviderPopup,
+    UserConverter,
+} from '.'
 import { Podcast } from './types'
 
 function wrapInPromise(obj: any) {
@@ -44,6 +49,17 @@ class Api {
                 relatedAds: [],
             })
         )
+    }
+
+    async getUserData({ id }: { id?: string }) {
+        if (!id) {
+            throw Error('Must provide valid id for user')
+        }
+        const user = await getDoc(
+            doc(db, 'users', id).withConverter(new UserConverter())
+        )
+
+        return user.exists() ? user.data() : null
     }
 
     async getPodcast({ id }: { id?: string }) {

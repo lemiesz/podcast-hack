@@ -9,6 +9,7 @@ import {
     signInWithPopup,
     AuthError,
     FacebookAuthProvider,
+    connectAuthEmulator,
 } from 'firebase/auth'
 import { DefinedAuthProviders } from '.'
 
@@ -41,6 +42,7 @@ setPersistence(auth, browserLocalPersistence)
 
 if (process.env.NODE_ENV === 'development') {
     connectFirestoreEmulator(db, 'localhost', 8080)
+    connectAuthEmulator(auth, 'http://localhost:9099')
 }
 
 export const analytics = getAnalytics(app)

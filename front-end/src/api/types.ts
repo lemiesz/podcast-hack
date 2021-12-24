@@ -1,17 +1,38 @@
-export class User {
+import {
+    DocumentData,
+    FirestoreDataConverter,
+    QueryDocumentSnapshot,
+    SnapshotOptions,
+} from 'firebase/firestore'
+export interface User {
     readonly name: string
     readonly email: string
     readonly id: string
     readonly podcasts: Podcast[]
-    constructor({ name, email, id, podcasts }: User) {
-        // name string
-        this.name = name
-        // string
-        this.email = email
-        // unique string
-        this.id = id
-        // array of refrences to podcasts
-        this.podcasts = podcasts || []
+}
+
+export class UserConverter implements FirestoreDataConverter<User> {
+    toFirestore(
+        modelObject: any,
+        options?: any
+    ): import('@firebase/firestore').DocumentData {
+        return {
+            name: modelObject.name,
+            email: modelObject.email,
+            podcasts: modelObject.podcasts,
+        }
+    }
+    fromFirestore(
+        snapshot: QueryDocumentSnapshot<DocumentData>,
+        options?: SnapshotOptions
+    ): User {
+        const data = snapshot.data()
+        return {
+            name: data.name,
+            email: data.email,
+            id: snapshot.id,
+            podcasts: data.podcasts,
+        }
     }
 }
 
