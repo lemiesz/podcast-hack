@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
-import Login from './components/login/component'
+import Login from './pages/login/component'
 import NavBar from './components/navbar/component'
 import { Routes } from './routes'
 import { userSelector } from './store/user'

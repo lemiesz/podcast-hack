@@ -1,7 +1,7 @@
 import { ComponentType, LazyExoticComponent } from 'react'
-import { Home } from './components/home/component'
-import UploadPodcast from './components/upload-podcast'
+import UploadPodcast from './pages/upload-podcast'
 import TestSoundView from './components/sound-view/test-page'
+import PodcastsPage from './pages/podcasts-page/component'
 
 interface Route {
     path: string
@@ -12,7 +12,7 @@ interface Route {
 export const Routes: Route[] = [
     {
         path: '/',
-        component: Home,
+        component: PodcastsPage,
         exact: true,
     },
     {

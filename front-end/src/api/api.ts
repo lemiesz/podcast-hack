@@ -1,4 +1,5 @@
-import { DefinedAuthProviders, signInWithProviderPopup } from '.'
+import { collection, doc, getDoc } from 'firebase/firestore'
+import { db, DefinedAuthProviders, signInWithProviderPopup } from '.'
 import { Podcast } from './types'
 
 function wrapInPromise(obj: any) {
@@ -45,16 +46,12 @@ class Api {
         )
     }
 
-    getPodcast({ id = '' }) {
-        return wrapInPromise(
-            new Podcast({
-                name: 'fake',
-                description: 'this is the description of the podcast',
-                fileLocation: 'file.com',
-                id: '123',
-                relatedAds: [],
-            })
-        )
+    async getPodcast({ id }: { id?: string }) {
+        if (!id) {
+            throw new Error('No id provided')
+        }
+        const data = await getDoc(doc(db, 'podcasts', id))
+        return data.exists() ? data.data() : null
     }
 
     /**

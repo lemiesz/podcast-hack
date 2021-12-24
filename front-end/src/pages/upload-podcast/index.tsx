@@ -1,5 +1,4 @@
 import React, { FormEvent, useState } from 'react'
-import AdDefine from '../ad-define/index'
 import { useDispatch } from 'react-redux'
 import { podcastUpload } from '../../store/podcast'
 
@@ -86,7 +85,6 @@ function UploadPodcast() {
                 </div>
                 {/* <button type="submit">Submit</button> */}
             </form>
-            <AdDefine />
         </div>
     )
 }

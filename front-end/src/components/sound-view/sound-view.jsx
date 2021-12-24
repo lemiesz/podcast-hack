@@ -32,8 +32,7 @@ function reducer(state, action) {
              * }
              */
             return {
-                // Todo: use immer to update the region.
-                // Not sure why its not working but it was not triggering a proper re-render when i tried it
+                // Todo: this is not the best way to do this. it should be done with immer
                 regions: {
                     ...state.regions,
                     [action.payload.id]: action.payload,
