@@ -1,10 +1,11 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Disclosure } from '@headlessui/react'
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
+import { Link } from 'react-router-dom'
 import logo from '../../assets/logo.png'
 
 const navigation = [
-    { name: 'Main', href: '#', current: true },
+    { name: 'Main', href: '/', current: true },
     { name: 'WavNaigateTest', href: '/test-sound-view', current: false },
 ]
 
@@ -50,9 +51,9 @@ export default function NavBar() {
                                 <div className="hidden sm:block sm:ml-6">
                                     <div className="flex space-x-4">
                                         {navigation.map((item) => (
-                                            <a
+                                            <Link
                                                 key={item.name}
-                                                href={item.href}
+                                                to={item.href}
                                                 className={classNames(
                                                     item.current
                                                         ? 'bg-gray-900 text-white'
@@ -66,7 +67,7 @@ export default function NavBar() {
                                                 }
                                             >
                                                 {item.name}
-                                            </a>
+                                            </Link>
                                         ))}
                                     </div>
                                 </div>
