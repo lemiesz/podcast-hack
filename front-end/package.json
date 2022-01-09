@@ -41,6 +41,7 @@
         "build": "craco build",
         "test": "craco test",
         "format": "prettier --write ./src",
+        "backend": "firebase emulators:start",
         "eject": "react-scripts eject"
     },
     "eslintConfig": {

@@ -4,7 +4,7 @@
 
 2. `npm run start` to start the dev sever
 
-3. `firebase emulators:start` to run firebase emulators, see firebase section for info if this fails
+3. `npm run backend` to run firebase emulators, see firebase section for info if this fails
 
 # Firebase
 
