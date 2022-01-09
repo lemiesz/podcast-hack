@@ -2,6 +2,13 @@ import { Button } from 'components/buttons'
 import { LabeledInput } from 'components/forms'
 import { useFormik } from 'formik'
 
+/**
+ *  The intial state of the form. This is displayed to a user before any database entry is created.
+ *  Once the user enters the required information, the form is submitted to the database. This should create the podcast
+ *  in a draft state, and give it a unique ID.
+ *
+ *  From there the user can edit the podcast, and then publish it.
+ */
 export default function CreatePodcastInitial() {
     const formik = useFormik({
         initialValues: {
