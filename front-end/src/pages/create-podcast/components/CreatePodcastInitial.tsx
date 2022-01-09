@@ -1,6 +1,10 @@
 import { Button } from 'components/buttons'
 import { LabeledInput } from 'components/forms'
 import { useFormik } from 'formik'
+import { motion } from 'framer-motion'
+import { useHistory } from 'react-router-dom'
+import { CreateRouteMap } from '../routes'
+import { animationCommon } from './animation-common'
 
 /**
  *  The intial state of the form. This is displayed to a user before any database entry is created.
@@ -10,16 +14,23 @@ import { useFormik } from 'formik'
  *  From there the user can edit the podcast, and then publish it.
  */
 export default function CreatePodcastInitial() {
+    const history = useHistory()
     const formik = useFormik({
         initialValues: {
             podcastName: '',
         },
         onSubmit: (values) => {
-            alert(JSON.stringify(values, null, 2))
+            history.push(
+                `${CreateRouteMap.createDetail.path.replace(':id', '2')}`
+            )
         },
     })
     return (
-        <div className="flex h-full flex-row container flex-grow">
+        <motion.div
+            key="create-podcast-initial"
+            {...animationCommon}
+            className="flex h-full flex-row container flex-grow"
+        >
             <div className="flex flex-col w-1/2 pt-48 gap-11 bg-purple-600 p-10">
                 <h1 className="text-4xl font-bold text-white">
                     <span>Lets Give Your</span>
@@ -46,6 +57,6 @@ export default function CreatePodcastInitial() {
                     <Button onClick={formik.handleSubmit}>Continue</Button>
                 </form>
             </div>
-        </div>
+        </motion.div>
     )
 }
