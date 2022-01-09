@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { useHistory } from 'react-router-dom'
 import { CreateRouteMap } from '../routes'
 import { animationCommon } from './animation-common'
+import * as Yup from 'yup'
 
 /**
  *  The intial state of the form. This is displayed to a user before any database entry is created.
@@ -19,6 +20,12 @@ export default function CreatePodcastInitial() {
         initialValues: {
             podcastName: '',
         },
+        validationSchema: Yup.object().shape({
+            podcastName: Yup.string()
+                .required('A podcast name is required')
+                .min(10, 'Name must be at least 10 characters long.')
+                .max(120, 'Name must be less than 120 characters long.'),
+        }),
         onSubmit: (values) => {
             history.push(
                 `${CreateRouteMap.createDetail.path.replace(':id', '2')}`
@@ -53,6 +60,7 @@ export default function CreatePodcastInitial() {
                         placeholder="Enter a title for your podcast"
                         onChange={formik.handleChange}
                         value={formik.values.podcastName}
+                        error={formik.errors.podcastName}
                     />
                     <Button onClick={formik.handleSubmit}>Continue</Button>
                 </form>
