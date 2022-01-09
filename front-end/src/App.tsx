@@ -9,18 +9,20 @@ function App() {
         return <Login />
     }
     return (
-        <div className="App">
+        <div className="App w-full h-full">
             <NavBar />
-            <Switch>
-                {Routes.map((item) => (
-                    <Route
-                        key={item.path}
-                        path={item.path}
-                        component={item.component}
-                        exact={true}
-                    />
-                ))}
-            </Switch>
+            <main className="overflow-auto w-full h-full">
+                <Switch>
+                    {Routes.map((item) => (
+                        <Route
+                            key={item.path}
+                            path={item.path}
+                            component={item.component}
+                            exact={item.exact}
+                        />
+                    ))}
+                </Switch>
+            </main>
         </div>
     )
 }

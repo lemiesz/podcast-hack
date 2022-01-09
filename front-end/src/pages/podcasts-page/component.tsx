@@ -1,4 +1,5 @@
-import { Button } from '../../components/buttons'
+import { RoutesMapBase } from 'routes'
+import { LinkButton } from '../../components/buttons'
 
 function AddPodcast() {
     return (
@@ -8,9 +9,9 @@ function AddPodcast() {
                 <p className="font-Merriweather mt-0">
                     Get Started by adding your first podcast
                 </p>
-                <Button onClick={() => alert('implement me')}>
+                <LinkButton to={RoutesMapBase.create.path}>
                     Add New Podcast
-                </Button>
+                </LinkButton>
             </div>
         </div>
     )
