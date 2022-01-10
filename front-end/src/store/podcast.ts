@@ -1,4 +1,4 @@
-import { createAction, createReducer } from '@reduxjs/toolkit'
+import { createAction, createSlice } from '@reduxjs/toolkit'
 import { Podcast } from '../api'
 
 //TYPE CONSTANTS
@@ -26,10 +26,18 @@ export const podcastUpload = (podcastInfo: any) => async (dispatch: any) => {
 
 const initialState: Record<string, Podcast> = {}
 
-const podcastReducer = createReducer(initialState, (builder) => {
-    builder.addCase(add, (state, action) => {
-        state[action.payload.id] = action.payload
-    })
+const podcastsSlice = createSlice({
+    name: 'podcast',
+    initialState,
+    reducers: {
+        setPodcasts: (state, action) => {
+            state = {
+                ...state,
+                ...action.payload,
+            }
+            return state as Record<string, Podcast>
+        },
+    },
 })
 
-export default podcastReducer
+export default podcastsSlice

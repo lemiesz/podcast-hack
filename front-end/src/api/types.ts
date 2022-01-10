@@ -9,7 +9,7 @@ export interface User {
     readonly name: string
     readonly email: string
     readonly id: string
-    readonly podcasts: Podcast[]
+    readonly podcasts: string[]
 }
 
 export class UserConverter implements FirestoreDataConverter<User> {

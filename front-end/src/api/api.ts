@@ -1,4 +1,11 @@
-import { doc, getDoc, addDoc, collection } from 'firebase/firestore'
+import {
+    addDoc,
+    arrayUnion,
+    collection,
+    doc,
+    getDoc,
+    updateDoc,
+} from 'firebase/firestore'
 import {
     db,
     DefinedAuthProviders,
@@ -17,6 +24,10 @@ class Api {
     readonly podcastCollection = collection(db, 'podcasts').withConverter(
         new PodcastConverter()
     )
+    readonly userCollection = collection(db, 'users').withConverter(
+        new UserConverter()
+    )
+
     async login({ provider }: { provider: DefinedAuthProviders }) {
         switch (provider) {
             case 'google':
@@ -36,12 +47,20 @@ class Api {
      * @returns id of the new podcast
      */
     async createNewPodcast(name: string, userId: string) {
-        const doc = await addDoc(this.podcastCollection, {
+        // First create the podcast refrence
+        const podcastResult = await addDoc(this.podcastCollection, {
             name,
             owner: userId,
             status: 'draft',
         } as any)
-        return doc.id
+
+        // add the auto generated id back to the podcast. There might be a better way of doing this
+        await updateDoc(podcastResult, { id: podcastResult.id })
+
+        // then update hte current user to include the new podcast
+        const currentUser = doc(this.userCollection, userId)
+        updateDoc(currentUser, { podcasts: arrayUnion(podcastResult.id) })
+        return podcastResult.id
     }
 
     async getUserData({ id }: { id?: string }) {
@@ -55,11 +74,24 @@ class Api {
         return user.exists() ? user.data() : null
     }
 
+    async getPodcasts(ids: string[]) {
+        const results = (
+            await Promise.all(
+                ids.map((id) =>
+                    this.getPodcast({ id }).catch((e) =>
+                        console.error('Could not get podcast', e)
+                    )
+                )
+            )
+        ).filter((r) => r !== null || r !== undefined)
+        return results
+    }
+
     async getPodcast({ id }: { id?: string }) {
         if (!id) {
             throw new Error('No id provided')
         }
-        const data = await getDoc(doc(db, 'podcasts', id))
+        const data = await getDoc(doc(this.podcastCollection, id))
         return data.exists() ? data.data() : null
     }
 

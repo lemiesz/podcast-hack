@@ -4,11 +4,12 @@ import podcastReducer from './podcast'
 import { auth } from '../api/firebase'
 import { useDispatch, useSelector } from 'react-redux'
 import { api } from '../api'
+import podcastsSlice from './podcast'
 
 const store = configureStore({
     reducer: {
         user: user.reducer,
-        podcast: podcastReducer,
+        podcasts: podcastReducer.reducer,
     },
 })
 
@@ -35,12 +36,13 @@ auth.onAuthStateChanged((a) => {
         return setUser({ id: '', name: '', email: '', podcasts: [] })
     }
     api.getUserData({ id: a.uid })
-        .then((user) => {
+        .then(async (user) => {
             if (!user) {
                 throw Error(
                     'Could not find user data for current authenticated user.'
                 )
             }
+            podcastsSlice.actions.setPodcasts(user.podcasts)
             store.dispatch(setUser(user))
         })
         .catch((err) => console.error(err))
