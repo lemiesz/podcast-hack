@@ -4,6 +4,7 @@ import {
     QueryDocumentSnapshot,
     SnapshotOptions,
 } from 'firebase/firestore'
+import * as yup from 'yup'
 export interface User {
     readonly name: string
     readonly email: string
@@ -36,23 +37,41 @@ export class UserConverter implements FirestoreDataConverter<User> {
     }
 }
 
-export class Podcast {
-    readonly name: string
-    readonly description: string
-    readonly fileLocation: string
-    readonly id: string
-    readonly relatedAds: any[]
-    constructor({ name, description, fileLocation, id, relatedAds }: Podcast) {
-        // string
-        this.name = name
-        // string
-        this.description = description
-        // unique storage url for this podcast
-        this.fileLocation = fileLocation
-        // unique id of podcast
-        this.id = id
-        // a list of related ads with timestamps
-        this.relatedAds = relatedAds
+enum PodcastStatus {
+    draft = 'draft',
+    published = 'published',
+}
+export let podcastSchema = yup.object().shape({
+    status: yup
+        .string()
+        .required()
+        .oneOf(Object.values(PodcastStatus))
+        .default('draft'),
+    name: yup
+        .string()
+        .required('A podcast name is required')
+        .min(10, 'Name must be at least 10 characters long.')
+        .max(120, 'Name must be less than 120 characters long.'),
+    owner: yup.string().required(),
+    description: yup.string().nullable(),
+    fileLocation: yup.string().url(),
+    id: yup.string().required(),
+    relatedAds: yup.array().nullable(),
+})
+export interface Podcast extends yup.InferType<typeof podcastSchema> {}
+export class PodcastConverter implements FirestoreDataConverter<Podcast> {
+    toFirestore(
+        modelObject: Podcast,
+        options?: any
+    ): import('@firebase/firestore').DocumentData {
+        return podcastSchema.omit(['id']).validateSync(modelObject)
+    }
+    fromFirestore(
+        snapshot: QueryDocumentSnapshot<DocumentData>,
+        options?: SnapshotOptions
+    ): Podcast {
+        const data = snapshot.data()
+        return podcastSchema.validateSync(data)
     }
 }
 

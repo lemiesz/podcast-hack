@@ -7,5 +7,6 @@ export const createUserInFireStore = functions.auth.user().onCreate((user) => {
         email: user.email,
         name: user.displayName,
         podcasts: [],
+        id: user.uid,
     })
 })

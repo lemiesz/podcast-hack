@@ -1,11 +1,11 @@
-import { doc, getDoc } from 'firebase/firestore'
+import { doc, getDoc, addDoc, collection } from 'firebase/firestore'
 import {
     db,
     DefinedAuthProviders,
+    PodcastConverter,
     signInWithProviderPopup,
     UserConverter,
 } from '.'
-import { Podcast } from './types'
 
 function wrapInPromise(obj: any) {
     return new Promise((resolve) => {
@@ -14,6 +14,9 @@ function wrapInPromise(obj: any) {
 }
 
 class Api {
+    readonly podcastCollection = collection(db, 'podcasts').withConverter(
+        new PodcastConverter()
+    )
     async login({ provider }: { provider: DefinedAuthProviders }) {
         switch (provider) {
             case 'google':
@@ -29,26 +32,16 @@ class Api {
     }
 
     /**
-     * This is called when a user attempt to upload a podcast
+     * Creates a new podcast entity within the
+     * @returns id of the new podcast
      */
-    uploadPodcast({
-        // Buffer of sound file of type File
-        fileLocation,
-        // string
-        name,
-        // string
-        description,
-    }: Omit<Podcast, 'id'>) {
-        alert('This has not be implemented yet')
-        return wrapInPromise(
-            new Podcast({
-                name: 'fake',
-                description: 'this is the description of the podcast',
-                fileLocation: 'file.com',
-                id: '123',
-                relatedAds: [],
-            })
-        )
+    async createNewPodcast(name: string, userId: string) {
+        const doc = await addDoc(this.podcastCollection, {
+            name,
+            owner: userId,
+            status: 'draft',
+        } as any)
+        return doc.id
     }
 
     async getUserData({ id }: { id?: string }) {

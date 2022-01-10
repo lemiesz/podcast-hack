@@ -2,10 +2,11 @@ import { Route, Switch } from 'react-router-dom'
 import Login from './pages/login/component'
 import NavBar from './components/navbar/component'
 import { Routes } from './routes'
-import { auth } from './api'
+import useCurrentUser from 'hooks/useCurrentUser'
+
 function App() {
-    if (auth.currentUser) {
-        // console.log("Redirect");
+    const currentUser = useCurrentUser()
+    if (!currentUser?.id) {
         return <Login />
     }
     return (

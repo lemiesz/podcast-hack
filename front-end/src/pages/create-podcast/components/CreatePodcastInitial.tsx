@@ -6,6 +6,8 @@ import { useHistory } from 'react-router-dom'
 import { CreateRouteMap } from '../routes'
 import { animationCommon } from './animation-common'
 import * as Yup from 'yup'
+import { api, podcastSchema } from 'api'
+import useCurrentUser from 'hooks/useCurrentUser'
 
 /**
  *  The intial state of the form. This is displayed to a user before any database entry is created.
@@ -14,19 +16,24 @@ import * as Yup from 'yup'
  *
  *  From there the user can edit the podcast, and then publish it.
  */
+
 export default function CreatePodcastInitial() {
     const history = useHistory()
+    const currentUser = useCurrentUser()
     const formik = useFormik({
         initialValues: {
             podcastName: '',
         },
         validationSchema: Yup.object().shape({
-            podcastName: Yup.string()
-                .required('A podcast name is required')
-                .min(10, 'Name must be at least 10 characters long.')
-                .max(120, 'Name must be less than 120 characters long.'),
+            podcastName: podcastSchema.fields.name.clone(),
         }),
         onSubmit: (values) => {
+            if (!currentUser.id) {
+                throw Error(
+                    'Should not be attempting to create a podcast when no current user is logged in.'
+                )
+            }
+            api.createNewPodcast(values.podcastName, currentUser.id)
             history.push(
                 `${CreateRouteMap.createDetail.path.replace(':id', '2')}`
             )
