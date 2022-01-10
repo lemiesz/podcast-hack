@@ -3,7 +3,7 @@ import { LabeledInput } from 'components/forms'
 import { useFormik } from 'formik'
 import { motion } from 'framer-motion'
 import { useHistory } from 'react-router-dom'
-import { CreateRouteMap } from '../routes'
+import { getCreateDetailRoute } from '../routes'
 import { animationCommon } from './animation-common'
 import * as Yup from 'yup'
 import { api, podcastSchema } from 'api'
@@ -27,16 +27,17 @@ export default function CreatePodcastInitial() {
         validationSchema: Yup.object().shape({
             podcastName: podcastSchema.fields.name.clone(),
         }),
-        onSubmit: (values) => {
+        onSubmit: async (values) => {
             if (!currentUser.id) {
                 throw Error(
                     'Should not be attempting to create a podcast when no current user is logged in.'
                 )
             }
-            api.createNewPodcast(values.podcastName, currentUser.id)
-            history.push(
-                `${CreateRouteMap.createDetail.path.replace(':id', '2')}`
+            const id = await api.createNewPodcast(
+                values.podcastName,
+                currentUser.id
             )
+            history.push(getCreateDetailRoute(id))
         },
     })
     return (
@@ -56,10 +57,7 @@ export default function CreatePodcastInitial() {
                 </p>
             </div>
             <div className="flex flex-col w-1/2 pt-48 p-10">
-                <form
-                    className="space-y-6"
-                    onSubmit={(e) => e.preventDefault()}
-                >
+                <form className="space-y-6" onSubmit={formik.handleSubmit}>
                     <LabeledInput
                         id="podcastName"
                         label="Podcast Title"
@@ -69,7 +67,7 @@ export default function CreatePodcastInitial() {
                         value={formik.values.podcastName}
                         error={formik.errors.podcastName}
                     />
-                    <Button onClick={formik.handleSubmit}>Continue</Button>
+                    <Button type="submit">Continue</Button>
                 </form>
             </div>
         </motion.div>

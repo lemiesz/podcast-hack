@@ -2,12 +2,13 @@ import { Link } from 'react-router-dom'
 import './styles.css'
 interface ButtonProps {
     children: React.ReactNode
-    onClick: () => void
+    onClick?: () => void
+    type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type']
 }
 
-export function Button({ children, onClick }: ButtonProps) {
+export function Button({ type, children, onClick }: ButtonProps) {
     return (
-        <button onClick={onClick} className="btn-primary">
+        <button type={type} onClick={onClick} className="btn-primary">
             {children}
         </button>
     )

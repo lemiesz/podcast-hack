@@ -16,4 +16,8 @@ export const CreateRouteMap = {
     },
 }
 
+export function getCreateDetailRoute(id: string) {
+    return CreateRouteMap.createDetail.path.replace(':id', id)
+}
+
 export const RoutesCreate = Object.values(CreateRouteMap)
