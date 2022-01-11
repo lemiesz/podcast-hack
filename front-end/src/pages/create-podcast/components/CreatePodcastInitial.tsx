@@ -44,9 +44,9 @@ export default function CreatePodcastInitial() {
         <motion.div
             key="create-podcast-initial"
             {...animationCommon}
-            className="flex h-full flex-row container flex-grow"
+            className="flex h-full flex-col md:flex-row container flex-grow"
         >
-            <div className="flex flex-col w-1/2 pt-48 gap-11 bg-purple-600 p-10">
+            <div className="flex flex-col md:w-1/2 md:pt-48 gap-11 bg-purple-600 p-10">
                 <h1 className="text-4xl font-bold text-white">
                     <span>Lets Give Your</span>
                     <br />
@@ -56,7 +56,7 @@ export default function CreatePodcastInitial() {
                     Dont worry, you can always change this later...
                 </p>
             </div>
-            <div className="flex flex-col w-1/2 pt-48 p-10">
+            <div className="flex flex-col md:w-1/2 md:pt-48 p-10">
                 <form className="space-y-6" onSubmit={formik.handleSubmit}>
                     <LabeledInput
                         id="podcastName"
