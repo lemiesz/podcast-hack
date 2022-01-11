@@ -1,5 +1,6 @@
 import { api, Podcast } from 'api'
 import placeholder from 'assets/placeholder.png'
+import LabelTable from 'components/tables/label-table'
 import { motion } from 'framer-motion'
 import useCurrentUser from 'hooks/useCurrentUser'
 import {
@@ -89,20 +90,17 @@ export default function PodcastsPage() {
         >
             <h1 className="text-3xl text-bold">Podcasts</h1>
             <div className="flex flex-col md:flex-row gap-3 mt-7">
-                <div className="flex flex-col w-5/6 grid-4">
+                <div className="flex flex-col md:w-5/6 grid-4">
                     {!hasPodcasts && <AddPodcast />}
                     {hasPodcasts && <DisplayPodcasts />}
                 </div>
-                <div className="hidden md:flex flex-col border-2 w-1/6 border-gray-400 rounded-lg max-h-52">
-                    <h2 className="text-white bg-gray-600 text-2xl font-bold p-3">
-                        Actions
-                    </h2>
+                <LabelTable label="Actions" className="hidden md:flex max-h-52">
                     <div className="p-3">
                         <LinkButton to={CreateRouteMap.createBase.path}>
                             Create New Podcast
                         </LinkButton>
                     </div>
-                </div>
+                </LabelTable>
                 <div className="mt-14 md:hidden">
                     <LinkButton to={CreateRouteMap.createBase.path}>
                         Create New Podcast

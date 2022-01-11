@@ -3,12 +3,17 @@ import './styles.css'
 interface ButtonProps {
     children: React.ReactNode
     onClick?: () => void
+    secondary?: boolean
     type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type']
 }
 
-export function Button({ type, children, onClick }: ButtonProps) {
+export function Button({ type, children, onClick, secondary }: ButtonProps) {
     return (
-        <button type={type} onClick={onClick} className="btn-primary">
+        <button
+            type={type}
+            onClick={onClick}
+            className={`${secondary ? 'btn-secondary' : 'btn-primary'}`}
+        >
             {children}
         </button>
     )
@@ -17,10 +22,14 @@ export function Button({ type, children, onClick }: ButtonProps) {
 interface LinkButtonProps {
     to: string
     children: React.ReactNode
+    secondary?: boolean
 }
-export function LinkButton({ to, children }: LinkButtonProps) {
+export function LinkButton({ to, secondary, children }: LinkButtonProps) {
     return (
-        <Link to={to} className="btn-primary">
+        <Link
+            to={to}
+            className={`${secondary ? 'btn-secondary' : 'btn-primary'}`}
+        >
             {children}
         </Link>
     )

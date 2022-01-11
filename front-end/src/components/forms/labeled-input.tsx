@@ -1,6 +1,6 @@
-import { HTMLInputTypeAttribute } from 'react'
+import React, { HTMLInputTypeAttribute } from 'react'
 
-export interface LabeledInputProps {
+export interface LabeledInputBaseProps {
     id: string
     label: string
     value: string
@@ -10,10 +10,7 @@ export interface LabeledInputProps {
     error?: string
 }
 
-/**
- * Simple input with label. Can be used for text, password, email, etc.
- */
-export function LabeledInput({
+function LabeledInputBase({
     id,
     label,
     onChange,
@@ -21,26 +18,43 @@ export function LabeledInput({
     placeholder,
     type,
     error,
-}: LabeledInputProps) {
+    formType = 'input',
+}: LabeledInputBaseProps & { formType: 'textarea' | 'input' }) {
     return (
-        <div className="space-y-2">
+        <div className="space-y-1">
             <label
                 htmlFor={id}
                 className="block text-gray-700 text-lg font-bold mb-2"
             >
                 {label}
             </label>
-            <input
-                id={id}
-                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:shadow-md 
-                            ${!error && 'focus:border-indigo-500'}
-                            ${error && 'border-red-300 focus:border-red-500'}`}
-                type={type}
-                value={value}
-                onChange={onChange}
-                placeholder={placeholder}
-            />
+            {React.createElement(formType, {
+                id: id,
+                className: `shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:shadow-md 
+                    ${!error && 'focus:border-indigo-500'}
+                    ${error && 'border-red-300 focus:border-red-500'}`,
+                type: type,
+                placeholder: placeholder,
+                value: value,
+                onChange: onChange,
+            })}
             {error && <p className="text-red-500">{error}</p>}
         </div>
     )
+}
+
+/**
+ * Simple input with label. Can be used for text, password, email, etc.
+ */
+type LabeledInputProps = LabeledInputBaseProps
+export function LabeledInput(props: LabeledInputProps) {
+    return LabeledInputBase({ ...props, formType: 'input' })
+}
+
+/**
+ * Simple textarea with label.
+ */
+type LabelTextAreaProps = LabeledInputBaseProps
+export function LabeledTextArea(props: LabelTextAreaProps) {
+    return LabeledInputBase({ ...props, formType: 'textarea' })
 }

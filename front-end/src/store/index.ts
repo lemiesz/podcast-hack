@@ -5,6 +5,7 @@ import { auth } from '../api/firebase'
 import { useDispatch, useSelector } from 'react-redux'
 import { api } from '../api'
 import podcastsSlice from './podcast'
+import { doc, onSnapshot } from 'firebase/firestore'
 
 const store = configureStore({
     reducer: {
@@ -31,12 +32,17 @@ export const useTypedSelect = function <SelectedVal>(
  * when the auth state has change "User Logs in", then we want to automatically updated
  * our state store with this data;
  */
+let unsubscribeUserListener = () => {}
 auth.onAuthStateChanged((a) => {
+    unsubscribeUserListener()
     if (!a) {
         return setUser({ id: '', name: '', email: '', podcasts: [] })
     }
-    api.getUserData({ id: a.uid })
-        .then(async (user) => {
+    // subscribe to changes to the user data
+    unsubscribeUserListener = onSnapshot(
+        doc(api.userCollection, a.uid),
+        (snap) => {
+            const user = snap.data()
             if (!user) {
                 throw Error(
                     'Could not find user data for current authenticated user.'
@@ -44,8 +50,8 @@ auth.onAuthStateChanged((a) => {
             }
             podcastsSlice.actions.setPodcasts(user.podcasts)
             store.dispatch(setUser(user))
-        })
-        .catch((err) => console.error(err))
+        }
+    )
 })
 
 export default store

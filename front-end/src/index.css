@@ -18,6 +18,14 @@ body > div {
     height: 100%;
 }
 
+/*
+ * There is a iframe being added in development that messes up interaction events on hot reload
+ */
+body > iframe {
+    z-index: -1;
+    pointer-events: none;
+}
+
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
         monospace;
