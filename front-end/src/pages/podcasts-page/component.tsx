@@ -44,7 +44,7 @@ function PodcastCard({ podcast }: PodcastCardProps) {
                         alt=""
                     />
                 </div>
-                <div className="flex flex-col gap-2 p-4">
+                <div className="flex flex-col justify-start items-start gap-2 p-4">
                     <h4 className="text-2xl tex-bold">{podcast.name}</h4>
                     {podcast.status === 'draft' && (
                         <LinkButton to={getCreateDetailRoute(podcast.id)}>
@@ -76,7 +76,19 @@ export default function PodcastsPage() {
 
     useEffect(() => {
         api.getPodcasts(user.podcasts).then((result) => {
-            dispatch(podcastsSlice.actions.setPodcasts(result))
+            dispatch(
+                podcastsSlice.actions.setPodcasts(
+                    result.reduce((acc, curr) => {
+                        if (!curr) {
+                            return acc
+                        }
+                        return {
+                            ...acc,
+                            [curr.id]: curr,
+                        }
+                    }, {})
+                )
+            )
         })
     }, [dispatch, user])
 

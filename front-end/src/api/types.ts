@@ -57,6 +57,9 @@ export let podcastSchema = yup.object().shape({
     fileLocation: yup.string().url(),
     id: yup.string().required(),
     relatedAds: yup.array().nullable(),
+    keywords: yup.array().nullable(),
+    seriesNum: yup.number().positive().nullable(),
+    episodeNum: yup.number().positive().nullable(),
 })
 export interface Podcast extends yup.InferType<typeof podcastSchema> {}
 export class PodcastConverter implements FirestoreDataConverter<Podcast> {

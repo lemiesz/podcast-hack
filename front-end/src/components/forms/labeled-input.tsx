@@ -1,5 +1,5 @@
 import React, { HTMLInputTypeAttribute } from 'react'
-
+import './styles.css'
 export interface LabeledInputBaseProps {
     id: string
     label: string
@@ -22,10 +22,7 @@ function LabeledInputBase({
 }: LabeledInputBaseProps & { formType: 'textarea' | 'input' }) {
     return (
         <div className="space-y-1">
-            <label
-                htmlFor={id}
-                className="block text-gray-700 text-lg font-bold mb-2"
-            >
+            <label htmlFor={id} className="text-label">
                 {label}
             </label>
             {React.createElement(formType, {

@@ -9,6 +9,7 @@ import {
 import {
     db,
     DefinedAuthProviders,
+    Podcast,
     PodcastConverter,
     signInWithProviderPopup,
     UserConverter,
@@ -95,27 +96,11 @@ class Api {
         return data.exists() ? data.data() : null
     }
 
-    /**
-     * Define on advertisment associated with podcast
-     */
-    defineAdOnPodcast({
-        podcastId,
-        name,
-        timeStartMs,
-        timeEndMs,
-        adFileRef,
-    }: any) {
-        return wrapInPromise(true)
-    }
-
-    /**
-     * Creates a new spliced together sound file containing
-     * the new ads that we wanted to splice in.
-     *
-     * Returns a url refrence of that sound file.
-     */
-    publishPodcast({ id = '' }) {
-        return wrapInPromise('https://sound.com')
+    async updatePodcast(podcast: Podcast) {
+        await updateDoc(doc(this.podcastCollection, podcast.id), {
+            ...podcast,
+            status: 'published',
+        } as Podcast)
     }
 }
 

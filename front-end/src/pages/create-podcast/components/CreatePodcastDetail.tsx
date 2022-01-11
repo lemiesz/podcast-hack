@@ -1,28 +1,65 @@
 import { Button, LinkButton } from 'components/buttons'
 import { LabeledInput, LabeledTextArea } from 'components/forms'
+import { UploadField } from 'components/forms/upload-field'
 import LabelTable from 'components/tables/label-table'
 import { useFormik } from 'formik'
 import { motion } from 'framer-motion'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { RoutesMapBase } from 'routes'
 import { animationCommon } from './animation-common'
+import * as yup from 'yup'
+import { podcastSchema } from 'api'
+import { useRouteMatch } from 'react-router'
+import { useDispatch, useSelector } from 'react-redux'
+import { StoreState } from 'store'
+import { fetchPodcastById } from 'store/podcast'
 
 export function CreatePodcastDetail() {
+    const { params } = useRouteMatch<{ id: string }>()
+    const item = useSelector((state: StoreState) => state.podcasts[params.id])
+    const formRef = useRef<HTMLFormElement>(null)
+    const dispatch = useDispatch()
+
     const formik = useFormik({
         initialValues: {
-            episodeTitle: '',
+            episodeTitle: item?.name || '',
             description: '',
             keywords: '',
             seriesNum: '',
             episodeNum: '',
+            podcastFile: null,
         },
-        onSubmit: (values) => {},
+        enableReinitialize: true,
+        validationSchema: yup.object().shape({
+            episodeTitle: podcastSchema.fields.name.clone(),
+            description: podcastSchema.fields.description.clone(),
+            keywords: podcastSchema.fields.keywords.clone(),
+            seriesNum: podcastSchema.fields.seriesNum.clone(),
+            episodeNum: podcastSchema.fields.episodeNum.clone(),
+            podcastFile: yup
+                .mixed()
+                .test(
+                    'fileSize',
+                    'file breaches maximum size',
+                    (value: File) => value && value.size >= 10000000
+                )
+                .required('Required'),
+        }),
+        onSubmit: (values) => {
+            // api.updatePodcast({ id: params.id, ...values })
+        },
     })
+
+    useEffect(() => {
+        dispatch(fetchPodcastById(params.id))
+    }, [dispatch, params.id])
 
     const footer = useMemo(
         () => (
             <div className="flex flex-col gap-3 lg:flex-row justify-between bg-gray-300 p-5">
-                <Button onClick={() => {}}>Create Podcast</Button>
+                <Button form="creation-form" type="submit">
+                    Create Podcast
+                </Button>
                 <LinkButton secondary to={RoutesMapBase.podcasts.path}>
                     Discard
                 </LinkButton>
@@ -41,7 +78,12 @@ export function CreatePodcastDetail() {
                 className="w-11/12 lg:w-2/4 max-w-2xl"
                 footer={footer}
             >
-                <form className="px-5 py-10 space-y-4">
+                <form
+                    id="creation-form"
+                    ref={formRef}
+                    onSubmit={formik.handleSubmit}
+                    className="px-5 py-10 space-y-4"
+                >
                     <LabeledInput
                         id="episodeTitle"
                         label="Episode Title"
@@ -57,6 +99,11 @@ export function CreatePodcastDetail() {
                         value={formik.values.description}
                         error={formik.errors.description}
                         type="text"
+                    />
+                    <UploadField
+                        label="Upload Podcast"
+                        error={formik.errors.podcastFile}
+                        onChange={(f) => formik.setFieldValue('podcastFile', f)}
                     />
                     <LabeledInput
                         id="keywords"

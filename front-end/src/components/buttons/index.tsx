@@ -5,13 +5,21 @@ interface ButtonProps {
     onClick?: () => void
     secondary?: boolean
     type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type']
+    form?: string
 }
 
-export function Button({ type, children, onClick, secondary }: ButtonProps) {
+export function Button({
+    type,
+    children,
+    onClick,
+    secondary,
+    form,
+}: ButtonProps) {
     return (
         <button
             type={type}
             onClick={onClick}
+            form={form}
             className={`${secondary ? 'btn-secondary' : 'btn-primary'}`}
         >
             {children}
