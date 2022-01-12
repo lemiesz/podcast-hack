@@ -1,10 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
-import user, { setUser } from './user'
-import podcastReducer from './podcast'
-import { auth } from '../api/firebase'
 import { useDispatch, useSelector } from 'react-redux'
 import { api } from '../api'
-import { doc, onSnapshot } from 'firebase/firestore'
+import { auth } from '../api/firebase'
+import podcastReducer from './podcast'
+import user, { setUser } from './user'
 
 const store = configureStore({
     reducer: {
@@ -38,18 +37,9 @@ auth.onAuthStateChanged((a) => {
         return setUser({ id: '', name: '', email: '', podcasts: [] })
     }
     // subscribe to changes to the user
-    unsubscribeUserListener = onSnapshot(
-        doc(api.userCollection, a.uid),
-        (snap) => {
-            const user = snap.data()
-            if (!user) {
-                throw Error(
-                    'Could not find user data for current authenticated user.'
-                )
-            }
-            store.dispatch(setUser(user))
-        }
-    )
+    unsubscribeUserListener = api.subscribeToUser(a.uid, (user) => {
+        store.dispatch(setUser(user))
+    })
 })
 
 export default store

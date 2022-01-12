@@ -4,6 +4,7 @@ import {
     collection,
     doc,
     getDoc,
+    onSnapshot,
     updateDoc,
 } from 'firebase/firestore'
 import {
@@ -12,6 +13,7 @@ import {
     Podcast,
     PodcastConverter,
     signInWithProviderPopup,
+    User,
     UserConverter,
 } from '.'
 
@@ -94,6 +96,18 @@ class Api {
         }
         const data = await getDoc(doc(this.podcastCollection, id))
         return data.exists() ? data.data() : null
+    }
+
+    subscribeToUser(uid: string, cb: (user: User) => void) {
+        return onSnapshot(doc(this.userCollection, uid), (snap) => {
+            const user = snap.data()
+            if (!user) {
+                throw Error(
+                    'Could not find user data for current authenticated user.'
+                )
+            }
+            cb(user)
+        })
     }
 
     async updatePodcast(podcast: Podcast) {
