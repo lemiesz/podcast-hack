@@ -37,7 +37,7 @@ export class UserConverter implements FirestoreDataConverter<User> {
     }
 }
 
-enum PodcastStatus {
+export enum PodcastStatus {
     draft = 'draft',
     published = 'published',
 }
@@ -54,10 +54,11 @@ export let podcastSchema = yup.object().shape({
         .max(120, 'Name must be less than 120 characters long.'),
     owner: yup.string().required(),
     description: yup.string().nullable(),
-    fileLocation: yup.string().url(),
+    fileLocation: yup.string(),
+    heroImageLocation: yup.string(),
     id: yup.string().required(),
     relatedAds: yup.array().nullable(),
-    keywords: yup.array().nullable(),
+    keywords: yup.array().of(yup.string()).nullable(),
     seriesNum: yup.number().positive().nullable(),
     episodeNum: yup.number().positive().nullable(),
 })

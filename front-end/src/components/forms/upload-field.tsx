@@ -14,11 +14,13 @@ export function UploadField({
 }: UploadFieldProps) {
     const [selectedFile, setSelectedFile] = useState<null | File>(null)
 
+    const displaySelected = selectedFile && !error
+
     return (
         <div className="space-y-2">
             <label className="text-label">{label}</label>
             <div className="flex w-full">
-                {!selectedFile && (
+                {!displaySelected && (
                     <AttachFile
                         error={error}
                         onChange={(e) => {
@@ -29,7 +31,7 @@ export function UploadField({
                         }}
                     />
                 )}
-                {selectedFile && (
+                {displaySelected && (
                     <div className="flex flex-row bg-green-400 border-green-500 border-2 rounded-md p-4 w-full justify-between">
                         <p className="pt-1 text-mg tracking-wider text-white font-bold group-hover:text-gray-600">
                             {selectedFile.name}
@@ -76,7 +78,10 @@ function AttachFile({
                         d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                     />
                 </svg>
-                <p className="pt-1 text-sm tracking-wider text-gray-400 group-hover:text-gray-600">
+                <p
+                    className={`pt-1 text-md tracking-wider font-bold text-gray-400 group-hover:text-gray-600
+                        ${error ? 'text-red-500' : 'text-gray-400'}`}
+                >
                     {error ? error : 'Attach a file'}
                 </p>
             </div>

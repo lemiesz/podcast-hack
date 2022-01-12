@@ -9,7 +9,7 @@ import {
 } from 'pages/create-podcast/routes'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { RoutesMapBase } from 'routes'
+import { getPodcastRoute, RoutesMapBase } from 'routes'
 import { StoreState } from 'store'
 import podcastsSlice from 'store/podcast'
 import { LinkButton } from '../../components/buttons'
@@ -40,7 +40,7 @@ function PodcastCard({ podcast }: PodcastCardProps) {
                 <div className="rounded-md">
                     <img
                         className="rounded-md w-44 h-44"
-                        src={placeholder}
+                        src={podcast.heroImageLocation || placeholder}
                         alt=""
                     />
                 </div>
@@ -49,6 +49,11 @@ function PodcastCard({ podcast }: PodcastCardProps) {
                     {podcast.status === 'draft' && (
                         <LinkButton to={getCreateDetailRoute(podcast.id)}>
                             Continue Editing
+                        </LinkButton>
+                    )}
+                    {podcast.status === 'published' && (
+                        <LinkButton to={getPodcastRoute(podcast.id)}>
+                            View
                         </LinkButton>
                     )}
                 </div>

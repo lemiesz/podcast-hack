@@ -8,11 +8,19 @@ import {
     updateDoc,
 } from 'firebase/firestore'
 import {
+    getDownloadURL,
+    ref,
+    StorageReference,
+    uploadBytesResumable,
+    UploadTask,
+} from 'firebase/storage'
+import {
     db,
     DefinedAuthProviders,
     Podcast,
     PodcastConverter,
     signInWithProviderPopup,
+    storage,
     User,
     UserConverter,
 } from '.'
@@ -30,6 +38,13 @@ class Api {
     readonly userCollection = collection(db, 'users').withConverter(
         new UserConverter()
     )
+
+    // Root folder for a podcast
+    readonly podcastRootFolderRef = ref(storage, 'podcasts')
+
+    // Podcast are store with all related items in the same package, keyed by id
+    readonly podcastPackageRef = (id: string) =>
+        ref(this.podcastRootFolderRef, id)
 
     async login({ provider }: { provider: DefinedAuthProviders }) {
         switch (provider) {
@@ -108,6 +123,60 @@ class Api {
             }
             cb(user)
         })
+    }
+
+    async storeImage(
+        file: File,
+        relatedPodcastId: string,
+        progressCb?: (n: number) => void
+    ) {
+        return this.resumableUpload(
+            ref(this.podcastPackageRef(relatedPodcastId), file.name),
+            file
+        )
+    }
+
+    async storePodcast(
+        file: File,
+        relatedPodcastId: string,
+        progressCb?: (n: number) => void
+    ) {
+        return this.resumableUpload(
+            ref(this.podcastPackageRef(relatedPodcastId), file.name),
+            file
+        )
+    }
+
+    private async resumableUpload(
+        toStoreIn: StorageReference,
+        file: File,
+        progressCb?: (n: number) => void
+    ) {
+        return new Promise<UploadTask>((resolve, reject) => {
+            const task = uploadBytesResumable(toStoreIn, file)
+            task.on(
+                'state_changed',
+                (snapshot) => {
+                    const progress =
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                    switch (snapshot.state) {
+                        case 'running':
+                            progressCb && progressCb(progress)
+                            return
+                    }
+                },
+                (error) => {
+                    reject(error)
+                },
+                () => {
+                    resolve(task)
+                }
+            )
+        })
+    }
+
+    async storageLoactionToUrl(location: string) {
+        return getDownloadURL(ref(storage, location))
     }
 
     async updatePodcast(podcast: Podcast) {
