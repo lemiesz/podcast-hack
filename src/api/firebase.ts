@@ -12,7 +12,7 @@ import {
     FacebookAuthProvider,
     connectAuthEmulator,
 } from 'firebase/auth'
-import { DefinedAuthProviders } from '.'
+import { api, DefinedAuthProviders } from '.'
 
 // Your web app's Firebase configuration
 
@@ -57,7 +57,19 @@ const providerMap = {
 }
 export async function signInWithProviderPopup(provider: DefinedAuthProviders) {
     try {
-        const { user } = await signInWithPopup(auth, providerMap[provider])
+        const { user, operationType } = await signInWithPopup(
+            auth,
+            providerMap[provider]
+        )
+        const userData = await api.getUserData({ id: user.uid })
+        if (userData === null) {
+            await api.setUserData(
+                user.uid,
+                user.email || '',
+                user.displayName || ''
+            )
+        }
+        console.log(operationType)
         return {
             name: user.displayName,
             email: user.email,

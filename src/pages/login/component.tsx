@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux'
-import { loginUserWithFacebook, loginUserWithGoogle } from '../../store/user'
 import logo from '../../assets/logo.png'
+import { loginUserWithGoogle } from '../../store/user'
 
 export default function Login() {
     const dispatch = useDispatch()
@@ -15,7 +15,7 @@ export default function Login() {
                 </h3>
                 <form action="">
                     <div className="mt-4">
-                        <div>
+                        {/* <div>
                             <label className="block" htmlFor="email">
                                 Email
                             </label>
@@ -40,10 +40,7 @@ export default function Login() {
                             <button className="px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900">
                                 Login
                             </button>
-                            {/* <a href="#" className="text-sm text-blue-600 hover:underline">
-                Forgot password?
-              </a> */}
-                        </div>
+                        </div> */}
                         <div className="w-full  mt-4">
                             <button
                                 onClick={() => dispatch(loginUserWithGoogle())}
@@ -55,13 +52,12 @@ export default function Login() {
                         </div>
                         <div className="w-full  mt-4">
                             <button
-                                onClick={() =>
-                                    dispatch(loginUserWithFacebook())
-                                }
-                                className="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline"
+                                disabled
+                                className="w-full bg-gray-400 cursor-not-allowed text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline"
                                 type="button"
                             >
-                                Login with Facebook
+                                Login with Facebook (not working yet need to
+                                register app with facebook)
                             </button>
                         </div>
                     </div>

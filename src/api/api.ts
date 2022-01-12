@@ -5,6 +5,7 @@ import {
     doc,
     getDoc,
     onSnapshot,
+    setDoc,
     updateDoc,
 } from 'firebase/firestore'
 import {
@@ -79,6 +80,16 @@ class Api {
         const currentUser = doc(this.userCollection, userId)
         updateDoc(currentUser, { podcasts: arrayUnion(podcastResult.id) })
         return podcastResult.id
+    }
+
+    async setUserData(id: string, email: string, name: string) {
+        const newUser = doc(this.userCollection, id)
+        await setDoc(newUser, {
+            id,
+            email,
+            name,
+            podcasts: [],
+        })
     }
 
     async getUserData({ id }: { id?: string }) {
