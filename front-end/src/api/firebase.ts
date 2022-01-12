@@ -1,6 +1,7 @@
 import { FirebaseError, initializeApp } from 'firebase/app'
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore'
 import { getAnalytics } from 'firebase/analytics'
+import { connectStorageEmulator, getStorage } from 'firebase/storage'
 import {
     browserLocalPersistence,
     getAuth,
@@ -38,11 +39,13 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig)
 export const db = getFirestore(app)
 export const auth = getAuth(app)
+export const storage = getStorage(app)
 setPersistence(auth, browserLocalPersistence)
 
 if (process.env.NODE_ENV === 'development') {
     connectFirestoreEmulator(db, 'localhost', 8080)
     connectAuthEmulator(auth, 'http://localhost:9099')
+    connectStorageEmulator(storage, 'localhost', 9199)
 }
 
 export const analytics = getAnalytics(app)
